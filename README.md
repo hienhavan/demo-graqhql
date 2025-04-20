@@ -1,6 +1,6 @@
 # Demo GraphQL với Spring Boot
 
-## GraphQL là gì?
+## GraphQL 
 
 GraphQL là một ngôn ngữ truy vấn dành cho API và một runtime để thực thi các truy vấn đó, GraphQL cho phép client chỉ định chính xác dữ liệu mà họ cần, giúp giảm thiểu dữ liệu dư thừa và số lượng request cần thiết.
 
