@@ -1,0 +1,100 @@
+"""
+Định nghĩa kiểu dữ liệu cho Sách
+"""
+type Book {
+    id: ID!
+    title: String!
+    author: Author!
+    pageCount: Int
+    genre: String
+    publishedYear: Int
+}
+
+"""
+Định nghĩa kiểu dữ liệu cho Tác giả
+"""
+type Author {
+    id: ID!
+    name: String!
+    birthYear: Int
+    books: [Book!]
+}
+
+"""
+Input type dùng để tạo mới hoặc cập nhật Sách
+"""
+input BookInput {
+    title: String!
+    authorId: ID!
+    pageCount: Int
+    genre: String
+    publishedYear: Int
+}
+
+"""
+Input type dùng để tạo mới hoặc cập nhật Tác giả
+"""
+input AuthorInput {
+    name: String!
+    birthYear: Int
+}
+
+"""
+Định nghĩa các truy vấn (Query) có thể thực hiện
+"""
+type Query {
+    # Lấy tất cả sách
+    allBooks: [Book!]!
+    
+    # Lấy sách theo ID
+    bookById(id: ID!): Book
+    
+    # Lấy sách theo thể loại
+    booksByGenre(genre: String!): [Book!]!
+    
+    # Lấy tất cả tác giả
+    allAuthors: [Author!]!
+    
+    # Lấy tác giả theo ID
+    authorById(id: ID!): Author
+}
+
+"""
+Định nghĩa các thao tác thay đổi dữ liệu (Mutation)
+"""
+type Mutation {
+    # Tạo sách mới
+    createBook(input: BookInput!): Book!
+    
+    # Cập nhật sách
+    updateBook(id: ID!, input: BookInput!): Book!
+    
+    # Xóa sách
+    deleteBook(id: ID!): Boolean!
+    
+    # Tạo tác giả mới
+    createAuthor(input: AuthorInput!): Author!
+    
+    # Cập nhật tác giả
+    updateAuthor(id: ID!, input: AuthorInput!): Author!
+    
+    # Xóa tác giả
+    deleteAuthor(id: ID!): Boolean!
+}
+
+"""
+Định nghĩa các subscription để lắng nghe sự kiện real-time
+"""
+type Subscription {
+    # Lắng nghe khi có sách mới được tạo
+    bookCreated: Book!
+    
+    # Lắng nghe khi có sách được cập nhật
+    bookUpdated: Book!
+    
+    # Lắng nghe khi có tác giả mới được tạo
+    authorCreated: Author!
+    
+    # Lắng nghe khi có tác giả được cập nhật
+    authorUpdated: Author!
+}
