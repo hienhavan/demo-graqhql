@@ -2,7 +2,7 @@
 
 ## GraphQL là gì?
 
-GraphQL là một ngôn ngữ truy vấn dành cho API và một runtime để thực thi các truy vấn đó. GraphQL được phát triển bởi Facebook vào năm 2012 và được công bố rộng rãi vào năm 2015. Không giống như REST API truyền thống, GraphQL cho phép client chỉ định chính xác dữ liệu mà họ cần, giúp giảm thiểu dữ liệu dư thừa và số lượng request cần thiết.
+GraphQL là một ngôn ngữ truy vấn dành cho API và một runtime để thực thi các truy vấn đó, GraphQL cho phép client chỉ định chính xác dữ liệu mà họ cần, giúp giảm thiểu dữ liệu dư thừa và số lượng request cần thiết.
 
 ### Các khái niệm cơ bản của GraphQL
 
@@ -12,6 +12,7 @@ GraphQL là một ngôn ngữ truy vấn dành cho API và một runtime để t
 4. **Mutation**: Thao tác thay đổi dữ liệu (thêm, sửa, xóa).
 5. **Resolver**: Hàm xử lý để lấy dữ liệu cho một field trong schema.
 6. **Subscription**: Cơ chế để nhận thông báo khi dữ liệu thay đổi (real-time).
+7. **Validation**: Kiểm tra dữ liệu đầu vào.
 
 ## Ưu điểm của GraphQL
 
@@ -102,27 +103,6 @@ Schema định nghĩa cấu trúc dữ liệu và các thao tác có thể thự
 - **Queries**: allBooks, bookById, booksByGenre, allAuthors, authorById
 - **Mutations**: createBook, updateBook, deleteBook, createAuthor, updateAuthor, deleteAuthor
 
-```graphql
-type Book {
-    id: ID!
-    title: String!
-    author: Author!
-    pageCount: Int
-    genre: String
-    publishedYear: Int
-}
-
-type Query {
-    allBooks: [Book!]!
-    # Các query khác...
-}
-
-type Mutation {
-    createBook(input: BookInput!): Book!
-    # Các mutation khác...
-}
-```
-
 ### 2. Resolvers (Controllers)
 
 Resolvers là các phương thức xử lý để lấy hoặc thay đổi dữ liệu. Trong Spring GraphQL, chúng được định nghĩa bằng các annotation:
@@ -131,87 +111,10 @@ Resolvers là các phương thức xử lý để lấy hoặc thay đổi dữ 
 - `@MutationMapping`: Xử lý thay đổi dữ liệu
 - `@SchemaMapping`: Xử lý các trường phức tạp
 
-```java
-@Controller
-public class BookController {
-    @QueryMapping
-    public List<Book> allBooks() {
-        // Xử lý truy vấn
-    }
-
-    @MutationMapping
-    public Book createBook(@Argument BookInput input) {
-        // Xử lý tạo sách mới
-    }
-}
-```
 
 ### 3. Các loại truy vấn GraphQL
 
 #### Query - Truy vấn dữ liệu
-
-```graphql
-# Lấy tất cả sách với tên tác giả
-query {
-  allBooks {
-    id
-    title
-    genre
-    author {
-      name
-    }
-  }
-}
-
-# Lấy sách theo ID với đầy đủ thông tin
-query {
-  bookById(id: 1) {
-    id
-    title
-    pageCount
-    genre
-    publishedYear
-    author {
-      id
-      name
-      birthYear
-    }
-  }
-}
-```
-
-#### Mutation - Thay đổi dữ liệu
-
-```graphql
-# Tạo tác giả mới
-mutation {
-  createAuthor(input: {
-    name: "Nguyễn Du"
-    birthYear: 1765
-  }) {
-    id
-    name
-    birthYear
-  }
-}
-
-# Tạo sách mới
-mutation {
-  createBook(input: {
-    title: "Truyện Kiều"
-    authorId: 4
-    pageCount: 200
-    genre: "Thơ"
-    publishedYear: 1820
-  }) {
-    id
-    title
-    author {
-      name
-    }
-  }
-}
-```
 
 ## Lưu ý khi sử dụng GraphQL
 
@@ -225,4 +128,4 @@ mutation {
 
 GraphQL là một công nghệ mạnh mẽ cho phép xây dựng API linh hoạt và hiệu quả. Mặc dù có đường cong học tập cao hơn so với REST, nhưng lợi ích mà nó mang lại rất đáng giá, đặc biệt là trong các ứng dụng phức tạp với nhiều loại dữ liệu liên quan.
 
-Demo này cung cấp một ví dụ đơn giản về cách triển khai GraphQL với Spring Boot, bao gồm các khái niệm cơ bản như schema, resolver, query và mutation. Bạn có thể mở rộng demo này bằng cách thêm các tính năng như subscription, pagination, hoặc authentication.
+
